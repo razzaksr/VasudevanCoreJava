@@ -32,8 +32,23 @@ public class Patterns {
 //		int count=0;
 //		System.out.println("Tell us how many rows ");
 //		count=scan.nextInt();
-//		
+//
 //		for(int row=1;row<=count;row++) {
+//			for(int space=count;space>row;space--) {
+//				System.out.print(" ");
+//			}
+//			for(int col=1;col<=row;col++) {
+//				System.out.print("#");
+//			}
+//			System.out.println();
+//		}
+
+
+//		int count=0;
+//		System.out.println("Tell us how many rows ");
+//		count=scan.nextInt();
+//
+//		for(int row=count;row>0;row--) {
 //			for(int space=count;space>row;space--) {
 //				System.out.print(" ");
 //			}
@@ -57,11 +72,28 @@ public class Patterns {
 //			System.out.println();
 //		}
 		
-		int count=0, limit=1;
+//		int count=0, limit=1;
+//		System.out.println("Tell us how many rows ");
+//		count=scan.nextInt();
+//
+//		for(int row=1;row<=count;row++) {
+//			for(int space=count;space>row;space--) {
+//				System.out.print(" ");
+//			}
+//			for(int col=1;col<=limit;col++) {
+//				System.out.print("#");
+//			}
+//			System.out.println();
+//			limit+=2;
+//		}
+
+		int count=0, limit=0;
 		System.out.println("Tell us how many rows ");
 		count=scan.nextInt();
-		
-		for(int row=1;row<=count;row++) {
+
+		limit=count*2-1;
+
+		for(int row=count;row>0;row--) {
 			for(int space=count;space>row;space--) {
 				System.out.print(" ");
 			}
@@ -69,7 +101,7 @@ public class Patterns {
 				System.out.print("#");
 			}
 			System.out.println();
-			limit+=2;
+			limit-=2;
 		}
 	}
 }
