@@ -4,8 +4,9 @@ public class DeStaMet {
     public static void main(String[] args) {
         System.out.println(HaiThere.term.length);
 
-        double d = HaiThere.doSome(4);
-        System.out.println(d);
+//        double d = HaiThere.doSome(4);
+//        System.out.println(d);
+        System.out.println(HaiThere.doSome(4));
 
         HaiThere h1=new HaiThere();
         h1.alter();
