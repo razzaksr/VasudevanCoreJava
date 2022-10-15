@@ -14,6 +14,21 @@ import java.util.Arrays;
 
 public class SortMulti {
 
+    public void selection(String[][] arr){
+        String third="";
+        for(int row=0;row<arr.length;row++){
+            for(int hold=0;hold<arr[row].length;hold++){
+                for(int comp=hold+1;comp<arr[row].length;comp++){
+                    if(arr[row][hold].compareToIgnoreCase(arr[row][comp])>0){
+                        third=arr[row][hold];
+                        arr[row][hold]=arr[row][comp];
+                        arr[row][comp]=third;
+                    }
+                }
+            }
+        }
+    }
+
     public int sort(String[][] arr,int row,int start,int end){
         String piData=arr[row][end];
         int initial=start-1;
@@ -65,7 +80,8 @@ public class SortMulti {
         };
         SortMulti multi=new SortMulti();
         multi.list(cast);
-        multi.divide(cast,0,0,cast[0].length-1);
+        //multi.divide(cast,0,0,cast[0].length-1);
+        multi.selection(cast);
         multi.list(cast);
     }
 }

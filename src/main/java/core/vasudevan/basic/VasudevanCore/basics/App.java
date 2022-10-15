@@ -1,4 +1,4 @@
-package core.vasudevan.basic.VasudevanCore;
+package core.vasudevan.basic.VasudevanCore.basics;
 
 /**
  * Hello world!
