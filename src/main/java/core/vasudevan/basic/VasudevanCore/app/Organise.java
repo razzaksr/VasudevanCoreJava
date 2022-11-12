@@ -2,9 +2,11 @@ package core.vasudevan.basic.VasudevanCore.app;
 
 import java.util.Arrays;
 import java.util.Date;
+import java.util.Scanner;
 
 public class Organise implements Perform{
-    private Event[] evs=new Event[10];
+    private Event[] evs=new Event[7];
+    private static Scanner scanner=new Scanner(System.in);
     public Organise(){
         evs[0]=new Event("PiconetPPT22","CSE",new Date("12/31/2021"));
         evs[1]=new Event("BotsShop22","Mech",new Date("01/07/2022"));
@@ -16,37 +18,59 @@ public class Organise implements Perform{
     }
     @Override
     public String schedule(Event obj) {
-        for(int index=0;index<evs.length;index++){
-            if(evs[index]==null){
-                evs[index]=obj;
-                return obj.getEveName()+" has scheduled by "+obj.getEveHost();
+        try{
+            for(int index=0;index<evs.length;index++){
+                if(evs[index]==null){
+                    evs[index]=obj;
+                    return obj.getEveName()+" has scheduled by "+obj.getEveHost();
+                }
             }
+            throw new EventNotFoundException();
         }
-        return obj.getEveName()+" can't schedule";
+        catch (EventNotFoundException eve){
+            System.out.println(eve+"\nEnter event name to replace ");
+            String name=scanner.next();
+            cancel(name);
+            return schedule(obj);
+        }
     }
 
     @Override
     public String enroll(String name, String person) {
-        for(int index=0;index<evs.length;index++){
-            //
-            if(evs[index]!=null&&evs[index].getEveName().equalsIgnoreCase(name)){
-                if(evs[index].getEveWinner()==null){
-                    String[] tmp=evs[index].getEvePart();
-                    for(int pos=0;pos<tmp.length;pos++){
-                        if(tmp[pos]==null){
-                            tmp[pos]=person;
-                            evs[index].setEvePart(tmp);// update new participant in existing
-                            return person+" has enrolled in "+name;
+        try{
+            for(int index=0;index<evs.length;index++){
+                //
+                if(evs[index]!=null&&evs[index].getEveName().equalsIgnoreCase(name)){
+                    if(evs[index].getEveWinner()==null){
+                        String[] tmp=evs[index].getEvePart();
+                        for(int pos=0;pos<tmp.length;pos++){
+                            if(tmp[pos]==null){
+                                tmp[pos]=person;
+                                evs[index].setEvePart(tmp);// update new participant in existing
+                                return person+" has enrolled in "+name;
+                            }
                         }
+                        return person+" hasn't enrolled due to registration is over";
                     }
-                    return person+" hasn't enrolled due to registration is over";
-                }
-                else{
-                    return person+" can't enroll in "+name+" since event has held already";
+                    else{
+                        //return person+" can't enroll in "+name+" since event has held already";
+                        throw new EventNotFoundException();
+                    }
                 }
             }
+            throw new EventNotFoundException();
         }
-        return name+" doesn't found ";
+        catch (EventNotFoundException eve){
+            System.out.println(eve+"\nEnter name of any following ");
+            for(Event e:evs){
+                if(e.getEveWinner()==null){
+                    System.out.println(e.getEveName());
+                }
+            }
+            name=scanner.next();
+            return enroll(name,person);
+        }
+        //return name+" doesn't found ";
     }
 
     @Override
@@ -55,13 +79,24 @@ public class Organise implements Perform{
             //
             if(evs[index]!=null&&evs[index].getEveWinner()==null){
                 String[] tmp=evs[index].getEvePart();
-                    for(int pos=0;pos<tmp.length;pos++){
-                        if(tmp[pos]!=null&&person.equalsIgnoreCase(tmp[pos])){
-                            evs[index].setEveWinner(person);
-                            return person+" has announced as winner in "+name;
+                    try{
+                        for(int pos=0;pos<tmp.length;pos++){
+                            if(tmp[pos]!=null&&person.equalsIgnoreCase(tmp[pos])){
+                                evs[index].setEveWinner(person);
+                                return person+" has announced as winner in "+name;
+                            }
                         }
+                        //return person+" hasn't enrolled in "+name;
+                        throw new EventNotFoundException();
                     }
-                    return person+" hasn't enrolled in "+name;
+                    catch (EventNotFoundException eve){
+                        System.out.println(eve+"\n enter the participant of followinf");
+                        for(String g:evs[index].getEvePart()){
+                            System.out.println(g);
+                        }
+                        person=scanner.next();
+                        return announce(name,person);
+                    }
             }
             //return name+" has winner already";
         }
@@ -70,16 +105,35 @@ public class Organise implements Perform{
 
     @Override
     public String cancel(String name) {
-        for(int index=0;index<evs.length;index++){
-            if(evs[index]!=null&&evs[index].getEveName().equalsIgnoreCase(name)){
-                if(evs[index].getEveWinner()==null){
-                    evs[index]=null;
-                    return name+" event has cancelled";
+        try{
+            for(int index=0;index<evs.length;index++){
+                if(evs[index]!=null&&evs[index].getEveName().equalsIgnoreCase(name)){
+                    if(evs[index].getEveWinner()==null){
+                        evs[index]=null;
+                        return name+" event has cancelled";
+                    }
+                    return name+" event can't cancel since it has been held already";
                 }
-                return name+" event can't cancel since it has been held already";
             }
+            throw new EventNotFoundException();
         }
-        return name+" doesn't found";
+        catch (EventNotFoundException eve){
+            System.out.println(eve+"\nenter the any of following event ");
+            for(Event e:evs){
+                System.out.println(e.getEveName());
+            }
+            name=scanner.next();
+            for(int index=0;index<evs.length;index++){
+                if(evs[index]!=null&&evs[index].getEveName().equalsIgnoreCase(name)){
+                    if(evs[index].getEveWinner()==null){
+                        evs[index]=null;
+                        return name+" event has cancelled";
+                    }
+                    return name+" event can't cancel since it has been held already";
+                }
+            }
+            return name+" doesn't found";
+        }
     }
 
     @Override
