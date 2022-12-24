@@ -1,7 +1,5 @@
 package core.vasudevan.basic.VasudevanCore.collection;
 
-import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.TreeSet;
 
@@ -21,18 +19,5 @@ public class UserDefined {
 
         System.out.println(lists);
 
-    }
-}
-
-@Data
-class Paper implements Comparable<Paper>{
-    String name;
-    Integer code;
-    Integer internals;
-    Character grade;
-
-    @Override
-    public int compareTo(Paper o) {
-        return o.name.compareTo(this.name);
     }
 }
